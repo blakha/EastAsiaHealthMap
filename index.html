@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+ <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+
+
+<!--<link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css">-->
+<link rel="stylesheet" href="css/leaflet.css">
+<link rel="stylesheet" href="css/dvf.css">
+<link href="css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap-responsive.css" >
+
+
+<link rel="stylesheet" href="css/example.css" type="text/css" media="screen">
+
+<style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        margin-left: 30px;
+      }
+</style>
+
+<script src="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.js"></script>
+<script src="js/leaflet.ajax.min.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/jquery.csv.min.js"></script>
+
+</head>
+
+<!-- END OF HEAD -->
+
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Mortality rate of EastAsia Regions</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="https://github.com/blakha/EastAsiaHealthMap">github</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+
+<div id="select-container">
+<p> Select data filter and click search. Then select the result layer in the right box</p>
+<select id="geomap">
+	<option value="default1">select geo_range</option>
+	<option value="sido"> sido </option>
+	<option value="sigungu"> sigungu </option>
+</select>
+
+
+<select id="cause">
+<option value = "default2">select death cause</option>
+<option value = "sdeath1">total</option>
+<option value="sdeath2"> Certain infectious and parasitic diseases (A00-B99)</option>
+　　　<option value="sdeath3"> Respiratory tuberculosis (A15-A16) </option>
+　　　<option value="sdeath4">Septicaemia (A40-A41)</option>
+<option value="sdeath5"> Neoplasms (C00-D48)</option>
+　　　<option value="sdeath6">Malignant neoplasms (C00-C97)</option>
+　　　<option value="sdeath7">Malignant neoplasm of oesophagus (C15)</option>
+　　　<option value="sdeath8">Malignant neoplasm of stomach (C16)</option>
+　　　<option value="sdeath9">Malignant neoplasms of colon, rectum and anus (C18-C21)</option>
+　　　<option value="sdeath10">Malignant neoplasms of liver and intrahepatic bile ducts (C22)</option>
+　　　<option value="sdeath11">Malignant Neoplasm of pancreas (C25)</option>
+　　　<option value="sdeath12">Malignant neoplasms of trachea, bronchus and lung (C33-C34)</option>
+　　　<option value="sdeath13">Malignant neoplasm of breast (C50)</option>
+　　　<option value="sdeath14">Malignant neoplasm of uterus (C53-C55)</option>
+　　　<option value="sdeath15">Malignant neoplasm of prostate (C61)</option>
+　　　<option value="sdeath16">Malignant neoplasms of other part of central nervous system (C70-C72)</option>
+　　　<option value="sdeath17">Leukaemia (C91-C95)</option>
+<option value="sdeath18">Diseases of the blood & blood-forming organs  (D50-D89) (Person)</option>
+<option value="sdeath19"> Endocrine, nutritional andmetabolic diseases (E00-E88)</option>
+　　　<option value="sdeath20">Diabetes mellitus (E10-E14)</option>
+
+<option value="sdeath21">Mental and behavioural disorders (F01-F99)</option>
+<option value="sdeath22"> Diseases of the nervous system (G00-G98)</option>
+　　　<option value="sdeath23">Alzheimer's disease (G30)</option>
+
+<option value="sdeath24">Diseases of the eye and adnexa (H00-H57)</option>
+<option value="sdeath25">Diseases of the ear and mastoid process (H60-H93)</option>
+<option value="sdeath26"> Diseases of the circulatory system (I00-I99)</option>
+　　　<option value="sdeath27">Hypertensive diseases (I10-I13)</option>
+　　　<option value="sdeath28">Heart diseases (I20-I51)</option>
+　　　<option value="sdeath29">Ischaemic heart diseases (I20-I25)</option>
+　　　<option value="sdeath30">Other heart diseases (I26-I51)</option>
+　　　<option value="sdeath31">Cerebrovascular diseases (I60-I69)</option>
+<option value="sdeath32"> Diseases of the respiratory system (J00-J98)</option>
+　　　<option value="sdeath33">Pneumonia (J12-J18)</option>
+　　　<option value="sdeath34">Chronic lower respiratory diseases (J40-J47)</option>
+<option value="sdeath35"> Diseases of the digestive system (K00-K92)</option>
+　　　<option value="sdeath36">Diseases of the liver (K70-K76)</option>
+<option value="sdeath37">Diseases of the skin and subcutaneous tissue (L00-L98)</option>
+<option value="sdeath38">Diseases of the musculoske-letal and connective tissue (M00-M99)</option>
+<option value="sdeath39">Diseases of the genitou-rinary system (N00-N98)</option>
+<option value="sdeath40">Pregnancy, childbirth and the puerperium (O00-O99)</option>
+<option value="sdeath41">Certain conditions origina-ting in the perinatal period (P00-P96)</option>
+<option value="sdeath42">Congenital malformations and chromosomal abnormalities (Q00-Q99)</option>
+<option value="sdeath43"> Symptoms and signs, NEC (R00-R99)</option>
+　　　<option value="sdeath44">Senility (R54)</option>
+<option value="sdeath45"> External causes of mobidity and mortality (V01-Y89)</option>
+　　　<option value="sdeath46">Transport accidents (V01-V99)</option>
+　　　<option value="sdeath47">Falls (W00-W19)</option>
+　　　<option value="sdeath48">Accidental drowning and submersion (W65-W74)</option>
+　　　<option value="sdeath49">Exposure to smoke, fire and flames (X00-X09)</option>
+　　　<option value="sdeath50">Accidental poisoning by and exposure to noxious substances (X40-X49)</option>
+　　　<option value="sdeath51">Intentional self-harm (X60-X84)</option>
+　　　<option value="sdeath52">Applied (homicide) (X85-Y09)</option>
+</select>
+
+
+<select id="gender">
+	<option value="default3">select gender </option>
+	<option value="both">total</option>
+	<option value="men"> men </option>
+	<option value="women"> women </option>
+</select>
+
+
+
+<select id="year">
+	<option value="default5">select year</option>
+	<option value="2014">2014</option>
+	<option value="2013">2013</option>
+	<option value="2012">2012</option>
+	<option value="2011">2011</option>
+	<option value="2010">2010</option>
+	<option value="2009">2009</option>
+	<option value="2008">2008</option>
+	<option value="2007">2007</option>
+	<option value="2006">2006</option>
+	<option value="2005">2005</option>
+</select>
+
+<input type="button" value=" Search " onclick="buttonClicked();">
+
+
+</div>
+
+<!--select container -->
+
+
+<div id="map container">
+	<div id="map" style="height:700px; width: 800px"></div>
+</div>
+
+<!--<script src="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.js"></script>-->
+<script src="js/leaflet.js"></script>
+<script src="js/leaflet.ajax.min.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/leaflet-dvf.js"> </script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src ="js/main.js"></script>
+
+</body></html>
