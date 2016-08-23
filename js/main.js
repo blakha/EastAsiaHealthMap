@@ -1,5 +1,6 @@
-	
-		var map = L.map('map').setView([40, 132], 5);
+//import * as d3 from "d3";
+
+		var map = L.map('map').setView([36, 128], 7);
 
 		// load base map
 		var baseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -86,6 +87,11 @@ var legendControl;
 var options;
 var choropleth = null;
 var min, max;
+var items;
+var maxThree = [];
+var minThree = [];
+var name_mortalityrate = {};
+
 
 sido_map = L.geoJson(sido_ajax);
 sigungu_map= L.geoJson(sigungu_ajax);
@@ -112,6 +118,10 @@ function buttonClicked(){
 	// check if selection is not default
 	if(geo_range_value == 'default1') {
 		alert("Choose the geo_range value.");
+		return;
+	}
+	if(geo_range_value == 'sido'){
+		alert("sido data is currently not available");
 		return;
 	}
 	if(cause_value == 'default2'){
@@ -203,8 +213,60 @@ options = {
 choropleth = new L.ChoroplethDataLayer(filter_result,options);
 map.addLayer(choropleth);
 //layerControl.addOverlay(choropleth, geo_range_value.concat("_", cause_value, "_", gender_value, "_", year_value));
+/*
+findMaxFive();
+
+//d3.select("svg").remove();
+d3.selectAll("svg > *").remove();
+
+var svg = d3.select("#chart")
+                .append("svg")
+                .attr("width",700)
+                .attr("height",400);
+
+var x = d3.scale.ordinal()
+                .domain(maxThree.map(function(d){return d.name}))
+                .rangeRoundBands([0, 700]);
+
+var y = d3.scale.linear()
+                .domain([200,10])
+                .range([0,250]);
 
 
+var rect = svg.selectAll("rect")
+                    .data(maxThree)
+                    .enter()
+                    .append("rect")
+                    .attr("x", function(d){return x(d.name);})
+                    .attr("y", function(d){console.log(d.rate); return 300-y(d.rate);})
+                    .attr("width", x.rangeBand()-40)
+                    .attr("height", function(d){return y(d.rate)})
+                    .style("fill", "steelblue");
+ 
+
+ var xAxis = d3.svg.axis()
+                    .scale(x)
+                    .outerTickSize(0)
+                    .orient("bottom");
+                    
+ var yAxis = d3.svg.axis()
+                        .scale(y)
+                        .outerTickSize(0)
+                        .ticks(5)
+                        .tickPadding(-5)
+                        .orient("left");
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0,350)")
+        .call(xAxis);
+    
+    svg.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(700,50)")
+        .call(yAxis);
+
+*/
 
 }
 
@@ -251,22 +313,21 @@ function selectDone() {
 var filter_result = [];
 
 var obj = {};
- 
 
 
 function listOfFilter(geo_range_value, cause_value, gender_value, mortality_value, year_value){
 	obj = {};
 	filter_result = [];
+	name_mortalityrate = {};
 	if(gender_value == 'both'){
-		console.log(cause_value);
 		for (tuple in total_data){
 			if(total_data[tuple].year == year_value){
 				obj['rcode3'] = total_data[tuple].rcode3;
 				obj['mortality_rate'] = Number(total_data[tuple][cause_value]);
-				console.log(total_data[tuple].sigungu_nm);
 				obj['sigungu_nm'] = total_data[tuple].rcode2.trim();
 				filter_result.push(obj);
 				obj = {};
+				name_mortalityrate[total_data[tuple].rcode2.trim()] = Number(total_data[tuple][cause_value]);
 				}
 			}
 	}else if(gender_value == 'men'){
@@ -277,6 +338,7 @@ function listOfFilter(geo_range_value, cause_value, gender_value, mortality_valu
 				obj['sigungu_nm'] = total_data[tuple].rcode2.trim();
 				filter_result.push(obj);
 				obj = {};
+				name_mortalityrate[total_data[tuple].rcode2.trim()] = Number(total_data[tuple][cause_value]);
 				}
 			}
 	}else if(gender_value == 'women'){
@@ -287,6 +349,7 @@ function listOfFilter(geo_range_value, cause_value, gender_value, mortality_valu
 				obj['sigungu_nm'] = total_data[tuple].rcode2.trim();
 				filter_result.push(obj);
 				obj = {};
+				name_mortalityrate[total_data[tuple].rcode2.trim()] = Number(total_data[tuple][cause_value]);
 				}
 			}
 		}
@@ -305,4 +368,50 @@ function listOfFilter(geo_range_value, cause_value, gender_value, mortality_valu
 
 
 
+// to make another array without data irrevelent to mortality rate {name: mortalityrate, ...}
 
+function findMaxFive(){
+minThree = [];
+maxThree = [];
+var obj2 = {};
+
+// Create items array
+items = Object.keys(name_mortalityrate).map(function(key) {
+    return [key, name_mortalityrate[key]];
+});
+
+// Sort the array based on the second element
+items.sort(function(first, second) {
+    return second[1] - first[1];
+});
+
+// Create a new array with only the first 5 items
+var sort_result_max = items.slice(0, 5);
+
+for (idx in sort_result_max){
+	obj2['name'] = sort_result_max[idx][0];
+	obj2['rate'] = sort_result_max[idx][1];
+	maxThree.push(obj2);
+	obj2 = {};
+}
+
+/*
+var items_len = items.length();
+
+var sort_result_min = items.slice(items_len-4, 3);
+
+for(idx2 in sort_result_min){
+	obj2['name'] = sort_result_min[idx][0];
+	obj2['rate'] = sort_result_min[idx][1];
+	minThree.push(obj2);
+	obj2 = {};
+}
+*/
+
+}
+
+/*
+function drawGraph(){
+
+}
+*/

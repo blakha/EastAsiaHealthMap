@@ -20,12 +20,28 @@
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
         margin-left: 30px;
       }
+      #map {
+        width: 80px;
+        height: 80px;
+      }
+      .tick line{
+            stroke: blue;
+            opacity: 0.5
+        }
+        rect {
+            fill: steelblue;
+        }
+        rect:hover{
+            fill:maroon;
+        }
 </style>
+
 
 <script src="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.js"></script>
 <script src="js/leaflet.ajax.min.js"></script>
 <script src="js/jquery.js"></script>
-<script src="js/jquery.csv.min.js"></script>
+<script type="text/javascript" src="js/d3.js"></script>
+
 
 </head>
 
@@ -42,7 +58,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Mortality rate of EastAsia Regions</a>
+          <a class="brand" href="#">Mortality Rate of East Asia regions</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="https://github.com/blakha/EastAsiaHealthMap">github</a></li>
@@ -156,12 +172,17 @@
 	<div id="map" style="height:700px; width: 800px"></div>
 </div>
 
+<div id="chart">
+</div>
+
 <!--<script src="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.js"></script>-->
 <script src="js/leaflet.js"></script>
 <script src="js/leaflet.ajax.min.js"></script>
 <script src="js/jquery.js"></script>
 <script src="js/leaflet-dvf.js"> </script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src ="js/main.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/d3.min.js"></script>
+<script src="js/main.js"></script>
+
 
 </body></html>
